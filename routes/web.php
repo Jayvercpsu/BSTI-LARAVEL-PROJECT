@@ -14,6 +14,6 @@ Route::post('signup', [UserController::class, 'signup']);
 Route::get('login', [UserController::class, 'showLogin']);
 Route::post('login', [UserController::class, 'login']);
 
-Route::get('/home', function () {
-    return 'Welcome to the home page!';
+Route::get('/dashboard', function () {
+    return view('dashboard.index');
 });

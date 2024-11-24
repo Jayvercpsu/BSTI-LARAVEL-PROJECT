@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -16,7 +17,6 @@ class UserController extends Controller
     {
         return view('login');
     }
-
     public function signup(Request $request)
     {
         $request->validate([
@@ -28,7 +28,7 @@ class UserController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        $user->password = $request->password;  // Store plain password (not hashed)
         $user->save();
 
         return redirect('login')->with('success', 'Signup successful! Please log in.');
@@ -43,11 +43,11 @@ class UserController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if ($user && Hash::check($request->password, $user->password)) {
-            return redirect('/home')->with('success', 'Logged in successfully!');
+        // Directly compare passwords without hashing
+        if ($user && $user->password === $request->password) {
+            return redirect('/dashboard')->with('success', 'Logged in successfully!');
         }
 
         return back()->withErrors(['email' => 'Invalid credentials.']);
     }
 }
-
