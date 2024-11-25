@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory;
+    use HasFactory, Notifiable;
+
+    // Define the fillable fields to prevent mass-assignment vulnerability
+    protected $fillable = ['name', 'email', 'password', 'profile_image'];
+
+    // Additional methods or relationships can be added here
 }
